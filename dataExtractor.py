@@ -57,10 +57,6 @@ def getRandomBTCIntervalDays(minDelta = 100):
     df = reset_my_index(df)
 
     lowerBound = random.randint(0, 1646 - minDelta)
-    upperBound = random.randint(lowerBound, lowerBound + minDelta)
+    upperBound = random.randint(lowerBound, random.randint(lowerBound + minDelta, 1646))
 
     return df[int(lowerBound):int(upperBound)]
-
-
-if __name__ == '__main__':
-    print(getRandomBTCIntervalDays(100))
