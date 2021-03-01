@@ -8,8 +8,9 @@ import keras.backend as K
 
 from keras.models import Sequential
 from keras.models import load_model, clone_model
-from keras.layers import Dense
+from keras.layers import Dense, LSTM, BatchNormalization, Dropout
 from keras.optimizers import Adam
+from keras.layers import LeakyReLU
 
 
 def huber_loss(y_true, y_pred, clip_delta=1.0):
@@ -68,13 +69,67 @@ class Agent:
         """Creates the model
         """
         model = Sequential()
-        model.add(Dense(units=128, activation="relu", input_dim=self.state_size))
-        model.add(Dense(units=256, activation="relu"))
-        model.add(Dense(units=256, activation="relu"))
-        model.add(Dense(units=128, activation="relu"))
+        model.add(Dense(units=128, activation="relu", kernel_initializer='he_normal', input_dim=self.state_size))
+        model.add(Dense(units=256, activation="relu", kernel_initializer='he_normal'))
+        model.add(Dense(units=256, activation="relu", kernel_initializer='he_normal'))
+        model.add(Dense(units=128, activation="relu", kernel_initializer='he_normal'))
         model.add(Dense(units=self.action_size))
 
         model.compile(loss=self.loss, optimizer=self.optimizer)
+
+        """
+        # FCC based on : https://arxiv.org/abs/2004.06627
+        initializer = tf.keras.initializers.GlorotUniform()
+        model = Sequential()
+        model.add(Dense(units=512, kernel_initializer=initializer, input_dim=self.state_size))
+        model.add(LeakyReLU())
+        model.add(BatchNormalization())
+        model.add(Dropout(0.2))
+
+        model.add(Dense(units=512, kernel_initializer=initializer))
+        model.add(LeakyReLU())
+        model.add(BatchNormalization())
+        model.add(Dropout(0.2))
+
+        model.add(Dense(units=512, kernel_initializer=initializer))
+        model.add(LeakyReLU())
+        model.add(BatchNormalization())
+        model.add(Dropout(0.2))
+
+        model.add(Dense(units=512, kernel_initializer=initializer))
+        model.add(LeakyReLU())
+        model.add(BatchNormalization())
+        model.add(Dropout(0.2))
+        
+        model.add(Dense(units=self.action_size))
+        model.compile(loss=self.loss, optimizer=self.optimizer)
+
+        # FCC with different initializer
+        model = Sequential()
+        model.add(Dense(units=32, input_dim=self.state_size, activation="relu",
+            kernel_initializer=initializers.RandomNormal(stddev=0.001),
+            bias_initializer='zeros'))
+        model.add(Dense(units=64, activation="relu",
+            kernel_initializer=initializers.RandomNormal(stddev=0.001),
+            bias_initializer='zeros'))
+        model.add(Dense(units=128, activation="relu",
+            kernel_initializer=initializers.RandomNormal(stddev=0.001),
+            bias_initializer='zeros'))
+        model.add(Dense(units=units=self.action_size))
+        model.compile(loss=self.loss, optimizer=Adam(lr=self.learning_rate))
+
+        # DRQN based on this paper: https://arxiv.org/pdf/1807.02787.pdf
+
+        model = Sequential()
+        model.add(Dense(units=256, input_dim=self.state_size, activation='relu',
+        kernel_initializer='he_normal))
+        model.add(Dense(units=256, activation='relu', kernel_initializer='he_normal'))
+        model.add(LSTM(units=256, activation='tanh'))
+        model.add(Dense(units=self.action_size, activation='linear'))
+        model.compile(loss=self.loss,
+                      optimizer=Adam(lr=self.learning_rate))
+
+        """
         return model
 
     def remember(self, state, action, reward, next_state, done):
