@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 sg.theme('DarkAmber')   # Add a touch of color
 # All the stuff inside your window.
 layout = [  [sg.Text('Boiler up!')],
-            [sg.Text('Current balance: $0', key='balanceText')],
+            [sg.Text('Current balance: $0', key='balanceText'), sg.Text('Transaction history...\n', key='transactionText')],
             [sg.Button('Start trading bot', key='startButton'), sg.Button('Close trading bot', key='endButton')],
             [sg.Button('Panick sell', key='panicButton')]]
 
