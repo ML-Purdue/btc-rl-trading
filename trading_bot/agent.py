@@ -67,7 +67,7 @@ class Agent:
 
     def _model(self):
         """Creates the model
-        """
+        
         model = Sequential()
         model.add(Dense(units=128, activation="relu", kernel_initializer='he_normal', input_dim=self.state_size))
         model.add(Dense(units=256, activation="relu", kernel_initializer='he_normal'))
@@ -76,48 +76,42 @@ class Agent:
         model.add(Dense(units=self.action_size))
 
         model.compile(loss=self.loss, optimizer=self.optimizer)
-
         """
+        
         # FCC based on : https://arxiv.org/abs/2004.06627
-        initializer = tf.keras.initializers.GlorotUniform()
         model = Sequential()
-        model.add(Dense(units=512, kernel_initializer=initializer, input_dim=self.state_size))
-        model.add(LeakyReLU())
+
+        model.add(Dense(units=512, 
+        kernel_initializer='glorot_uniform', input_dim=self.state_size))
         model.add(BatchNormalization())
+        model.add(LeakyReLU(alpha=0.01))
         model.add(Dropout(0.2))
 
-        model.add(Dense(units=512, kernel_initializer=initializer))
-        model.add(LeakyReLU())
+        model.add(Dense(units=512, 
+        kernel_initializer='glorot_uniform'))
         model.add(BatchNormalization())
+        model.add(LeakyReLU(alpha=0.01))
         model.add(Dropout(0.2))
 
-        model.add(Dense(units=512, kernel_initializer=initializer))
-        model.add(LeakyReLU())
+        model.add(Dense(units=512, 
+        kernel_initializer="glorot_uniform"))
         model.add(BatchNormalization())
+        model.add(LeakyReLU(alpha=0.01))
         model.add(Dropout(0.2))
 
-        model.add(Dense(units=512, kernel_initializer=initializer))
-        model.add(LeakyReLU())
+        model.add(Dense(units=512, 
+        kernel_initializer="glorot_uniform"))
         model.add(BatchNormalization())
+        model.add(LeakyReLU(alpha=0.01))
         model.add(Dropout(0.2))
         
-        model.add(Dense(units=self.action_size))
+        model.add(Dense(units=self.action_size, 
+        kernel_initializer="glorot_uniform"))
         model.compile(loss=self.loss, optimizer=self.optimizer)
 
-        # FCC with different initializer
-        model = Sequential()
-        model.add(Dense(units=32, input_dim=self.state_size, activation="relu",
-            kernel_initializer=initializers.RandomNormal(stddev=0.001),
-            bias_initializer='zeros'))
-        model.add(Dense(units=64, activation="relu",
-            kernel_initializer=initializers.RandomNormal(stddev=0.001),
-            bias_initializer='zeros'))
-        model.add(Dense(units=128, activation="relu",
-            kernel_initializer=initializers.RandomNormal(stddev=0.001),
-            bias_initializer='zeros'))
-        model.add(Dense(units=units=self.action_size))
-        model.compile(loss=self.loss, optimizer=Adam(lr=self.learning_rate))
-
+        """
+        
+        
         # DRQN based on this paper: https://arxiv.org/pdf/1807.02787.pdf
 
         model = Sequential()
