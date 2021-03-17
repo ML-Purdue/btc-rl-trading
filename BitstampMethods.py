@@ -51,7 +51,7 @@ class BitstampTradingClient():
         return header
 
     def generate_signature(self, message):
-        signature = hmac.new(self.api_key,
+        signature = hmac.new(self.api_secret,
                              msg=message,
                              digestmod=hashlib.sha256)
         return signature.hexdigest()
@@ -93,9 +93,7 @@ class BitstampTradingClient():
 
         string_to_sign = (nonce + timestamp + r.headers.get('Content-Type')
                           ).encode('utf-8') + r.content
-        signature_check = hmac.new(self.api_secret,
-                                   msg=string_to_sign,
-                                   digestmod=hashlib.sha256).hexdigest()
+        signature_check = self.generate_signature(message= string_to_sign)
         if not r.headers.get('X-Server-Auth-Signature') == signature_check:
             raise Exception('Signatures do not match')
         return r.content
