@@ -32,7 +32,7 @@ class BitstampTradingClient():
     def __init__(self, username, public_key, secret_key):
         self.client_id = username
         self.api_key = public_key
-        self.api_secret = secret_key
+        self.api_secret = bytes(secret_key, 'utf-8')
 
     def _get(self, url):
         req = requests.get(url).text
