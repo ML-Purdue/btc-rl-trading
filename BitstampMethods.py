@@ -64,8 +64,8 @@ class BitstampTradingClient():
             from urllib.parse import urlencode
         else:
             from urllib import urlencode
-            payload_string = urlencode(payload)
-            message = 'BITSTAMP ' + self.api_key + \
+        payload_string = urlencode(payload)
+        message = 'BITSTAMP ' + self.api_key + \
                 'POST' + \
                 'www.bitstamp.net' + \
                 url + \
