@@ -53,7 +53,7 @@ class BitstampTradingClient():
     def generate_signature(self, message):
         signature = hmac.new(self.api_key,
                              msg=message,
-                             digestmode=hashlib.sha256)
+                             digestmod=hashlib.sha256)
         return signature.hexdigest()
 
     def api_output(self, payload, url):
