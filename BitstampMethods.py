@@ -39,12 +39,12 @@ class BitstampTradingClient():
         resp = json.loads(req)
         return resp
 
-    def generate_header(self, signature, content_type):
+    def generate_header(self, signature, content_type, nonce, timestamp):
         header = {
             'X-Auth': 'BITSTAMP ' + self.api_key,
             'X-Auth-Signature': signature,
-            'X-Auth-Nonce': get_nonce(),
-            'X-Auth-Timestamp': get_timestamp(),
+            'X-Auth-Nonce': nonce,
+            'X-Auth-Timestamp': timestamp,
             'X-Auth-Version': 'v2',
             'Content-Type': content_type
         }
@@ -78,7 +78,8 @@ class BitstampTradingClient():
         message = message.encode('utf-8')
         signature = self.generate_signature(message=message)
         headers = self.generate_header(signature=signature,
-                                       content_type=content_type)
+                                       content_type=content_type, nonce= nonce,
+                                       timestamp= timestamp)
         if payload is not None:
             r = requests.post("https://www.bitstamp.net" + url,
                               headers=headers,
@@ -119,7 +120,7 @@ class BitstampTradingClient():
         return self.api_output({}, url)
 
     def get_transaction(self, symbol='btc'):
-        symbol = symbol + 'usd/'
+        symbol = symbol + 'usd'
         url = '{}{}/'.format(TRANSACTIONS_API_URL, symbol)
         return self.api_output({
             'offset': '0',
@@ -144,11 +145,11 @@ class BitstampTradingClient():
         return self.api_output({}, url)
 
     def market_buy_trade(self, amount, symbol=None):
-        symbol = symbol + 'usd/'
+        symbol = symbol + 'usd'
         url = '{}{}/'.format(BUY_MARKET_ORDER_API_URL, symbol)
         return self.api_output({'amount': str(amount)}, url)
 
     def market_sell_trade(self, amount, symbol=None):
-        symbol = symbol + 'usd/'
+        symbol = symbol + 'usd'
         url = '{}{}/'.format(SELL_MARKET_ORDER_API_URL, symbol)
         return self.api_output({'amount': str(amount)}, url)
