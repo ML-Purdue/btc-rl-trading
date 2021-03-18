@@ -78,15 +78,12 @@ class BitstampTradingClient():
         message = message.encode('utf-8')
         signature = self.generate_signature(message=message)
         headers = self.generate_header(signature=signature,
-                                       content_type=content_type, nonce= nonce,
-                                       timestamp= timestamp)
-        if payload is not None:
-            r = requests.post("https://www.bitstamp.net" + url,
-                              headers=headers,
-                              data=payload_string)
-        else:
-            r = requests.post("https://www.bitstamp.net" + url,
-                              headers=headers)
+                                       content_type=content_type,
+                                       nonce=nonce,
+                                       timestamp=timestamp)
+        r = requests.post("https://www.bitstamp.net" + url,
+                          headers=headers,
+                          data=payload_string)
         if not r.status_code == 200:
             print(r.status_code)
             print(r.reason)
@@ -94,7 +91,7 @@ class BitstampTradingClient():
 
         string_to_sign = (nonce + timestamp + r.headers.get('Content-Type')
                           ).encode('utf-8') + r.content
-        signature_check = self.generate_signature(message= string_to_sign)
+        signature_check = self.generate_signature(message=string_to_sign)
         if not r.headers.get('X-Server-Auth-Signature') == signature_check:
             raise Exception('Signatures do not match')
         return r.content
@@ -126,7 +123,7 @@ class BitstampTradingClient():
             'offset': '0',
             'limit': '100',
             'sort': 'desc'
-        }, url)
+        }, url).decode('utf-8')
 
     def cancel_order(self, order_id):
         url = CANCEL_ORDER_API_URL
