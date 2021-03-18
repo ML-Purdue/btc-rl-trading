@@ -114,12 +114,12 @@ class BitstampTradingClient():
 
     def get_balance(self):
         url = BALANCE_API_URL
-        all_balances = self.api_output({'offset':'0'}, url)
-        usd_balances = {}
-        for key,value in all_balances.items():
+        output = self.api_output({'offset':'0'}, url)
+        balances = {}
+        for key,value in output.items():
           if 'balance' in key:
-            usd_balances[key] = value
-        return usd_balances
+            balances[key] = value
+        return balances
 
 
     def get_transaction(self, symbol='btc'):
