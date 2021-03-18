@@ -94,7 +94,7 @@ class BitstampTradingClient():
         signature_check = self.generate_signature(message=string_to_sign)
         if not r.headers.get('X-Server-Auth-Signature') == signature_check:
             raise Exception('Signatures do not match')
-        return r.content
+        return json.loads((r.content).decode('utf-8'))
 
     def get_ticker(self, symbol='btc'):
         symbol = symbol + 'usd'
@@ -114,7 +114,13 @@ class BitstampTradingClient():
 
     def get_balance(self):
         url = BALANCE_API_URL
-        return self.api_output({}, url)
+        all_balances = self.api_output({'offset':'0'}, url)
+        usd_balances = {}
+        for key,value in all_balances.items():
+          if 'balance' in key:
+            usd_balances[key] = value
+        return usd_balances
+
 
     def get_transaction(self, symbol='btc'):
         symbol = symbol + 'usd'
@@ -123,7 +129,7 @@ class BitstampTradingClient():
             'offset': '0',
             'limit': '100',
             'sort': 'desc'
-        }, url).decode('utf-8')
+        }, url)
 
     def cancel_order(self, order_id):
         url = CANCEL_ORDER_API_URL
@@ -131,7 +137,7 @@ class BitstampTradingClient():
 
     def cancel_all_orders(self):
         url = CANCEL_ALL_API_URL
-        return self.api_output({}, url)
+        return self.api_output({'offset':'0'}, url)
 
     def get_open_status(self, order_id):
         url = ORDER_STATUS_API_URL
@@ -139,7 +145,7 @@ class BitstampTradingClient():
 
     def get_open_orders(self):
         url = OPEN_ORDERS_API_URL
-        return self.api_output({}, url)
+        return self.api_output({'offset':'0'}, url)
 
     def market_buy_trade(self, amount, symbol=None):
         symbol = symbol + 'usd'
