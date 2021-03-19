@@ -76,7 +76,11 @@ class Agent:
         model.add(Dense(units=self.action_size))
 
         model.compile(loss=self.loss, optimizer=self.optimizer)
+<<<<<<< HEAD
 
+=======
+        """
+>>>>>>> 1e58f2748be270eab76e80b193e0cd484b710e69
         
         # FCC based on : https://arxiv.org/abs/2004.06627
         model = Sequential()
@@ -85,25 +89,41 @@ class Agent:
         kernel_initializer='glorot_uniform', input_dim=self.state_size))
         model.add(BatchNormalization())
         model.add(LeakyReLU(alpha=0.01))
+<<<<<<< HEAD
         # model.add(Dropout(0.2))
+=======
+        model.add(Dropout(0.2))
+>>>>>>> 1e58f2748be270eab76e80b193e0cd484b710e69
 
         model.add(Dense(units=512, 
         kernel_initializer='glorot_uniform'))
         model.add(BatchNormalization())
         model.add(LeakyReLU(alpha=0.01))
+<<<<<<< HEAD
         # model.add(Dropout(0.2))
+=======
+        model.add(Dropout(0.2))
+>>>>>>> 1e58f2748be270eab76e80b193e0cd484b710e69
 
         model.add(Dense(units=512, 
         kernel_initializer="glorot_uniform"))
         model.add(BatchNormalization())
         model.add(LeakyReLU(alpha=0.01))
+<<<<<<< HEAD
         # model.add(Dropout(0.2))
+=======
+        model.add(Dropout(0.2))
+>>>>>>> 1e58f2748be270eab76e80b193e0cd484b710e69
 
         model.add(Dense(units=512, 
         kernel_initializer="glorot_uniform"))
         model.add(BatchNormalization())
         model.add(LeakyReLU(alpha=0.01))
+<<<<<<< HEAD
         #model.add(Dropout(0.2))
+=======
+        model.add(Dropout(0.2))
+>>>>>>> 1e58f2748be270eab76e80b193e0cd484b710e69
         
         model.add(Dense(units=self.action_size, 
         kernel_initializer="glorot_uniform"))
