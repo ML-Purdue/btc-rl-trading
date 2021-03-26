@@ -1,0 +1,12 @@
+Because our datasets is quite big now, we cannot submit in the usual way. We have to use git lfs to submit, and this doc will have the guide to help you set up and submit
+
+1. download git lfs from: https://git-lfs.github.com/
+2. In btc-rl-trading, type:
+git lfs install
+3. Use : git lfs track *.[extension] to add the file to .gitattributes
+So if I want to track all the csv, I could type: git lfs track *.csv
+Or you want to track all the file from a folder: git lfs track [folderName]/**
+For example, if I want to track all the file in models: git lfs track models/**
+
+4. type git add .gitattributes
+5. Commit as usually
