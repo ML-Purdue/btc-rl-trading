@@ -1,5 +1,5 @@
 import BitstampMethods as btc
-import credentials as cred
+import BitstampCredentials as cred
 
 
 
