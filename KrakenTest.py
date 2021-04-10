@@ -1,7 +1,6 @@
 import KrakenCredentials as cred
 import KrakenAPI as krak
 
-#https://github.com/dominiktraxl/pykrakenapi/blob/master/pykrakenapi/pykrakenapi.py
 
 def test_private_methods():
   client = krak.KrakenClient(cred.api_key, cred.api_secret)
