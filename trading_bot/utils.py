@@ -35,11 +35,19 @@ def show_eval_result(model_name, profit, initial_offset):
     else:
         logging.info('{}: {}\n'.format(model_name, format_position(profit)))
 
+def show_multi_eval_result(model1, model2, profit, initial_offset):
+    """ Displays eval results
+    """
+    if profit == initial_offset or profit == 0.0:
+        logging.info('{} and {}: USELESS\n'.format(model1, model2))
+    else:
+        logging.info('{} and {}: {}\n'.format(model1, model2, format_position(profit)))        
+
 
 def get_stock_data(stock_file):
     """Reads stock data from csv file
     """
-    df = pd.read_csv(stock_file)
+    df = pd.read_csv(stock_file, index_col=False)
     return list(df['Close'])
 
 
