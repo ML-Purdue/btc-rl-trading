@@ -1,21 +1,3 @@
-'''
-This is a terminal GUI to interface with
-all of the things this project may need.
-This includes:
- -Viewing current stock
- -Running and terminating automatic trading
- -Making manual trades
-'''
-import curses
-
-# Prepping terminal
-stdscr = curses.initscr()
-curses.noecho()
-curses.cbreak()
-stdscr.keypad(True)
-
-# Closing curses and reverting terminal
-curses.nocbreak()
-stdscr.keypad(False)
-curses.echo()
-curses.endwin()
+version https://git-lfs.github.com/spec/v1
+oid sha256:d47be51908273a85d3ea74e313d428b4f95718750df8760b404e4dd69bee1ea6
+size 419
