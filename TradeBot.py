@@ -16,7 +16,7 @@ class TradeBot(threading.Thread):
         # TODO
 
     def run():
-        # TODO 
+        # TODO
 
 
-        
+
